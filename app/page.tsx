@@ -184,25 +184,61 @@ export default function Home() {
       </section>
 
       {/* Newsletter Section */}
-      <section className="bg-gradient-to-r from-secondary to-primary text-white py-16 md:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Stay Updated on New Products</h2>
-          <p className="text-white/90 mb-8 max-w-2xl mx-auto text-lg">
-            Subscribe to our newsletter and get exclusive discounts and early access to new collections from our verified sellers.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto mt-8">
-            <input
-              type="email"
-              placeholder="Enter your email address"
-              className="flex-1 h-14 px-5 rounded-xl bg-white text-gray-900 placeholder:text-gray-500 border border-white/20 shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-400
-    "
-            />
+      <section className="bg-gradient-to-r from-secondary to-primary text-white py-12 md:py-20">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight">
+            Stay Updated on
+            <br className="sm:hidden" />
+            New Products
+          </h2>
 
-            <button className="h-14 px-8 rounded-xl bg-yellow-500 hover:bg-yellow-600 text-black font-semibold transition-colors">
-              Subscribe Now
-            </button>
+          <p className="text-white/90 mb-6 max-w-xl mx-auto text-base sm:text-lg">
+            Subscribe for exclusive discounts and early access to new collections from verified sellers.
+          </p>
+
+          <div className="max-w-lg mx-auto">
+            <div className="flex flex-col sm:flex-row gap-3 bg-white/10 backdrop-blur-sm p-2 sm:p-3 rounded-2xl">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="
+            w-full
+            h-12
+            px-4
+            rounded-xl
+            bg-white
+            text-gray-900
+            placeholder:text-gray-500
+            shadow-md
+            focus:outline-none
+            focus:ring-2
+            focus:ring-yellow-400
+          "
+              />
+
+              <button
+                className="
+            w-full
+            sm:w-auto
+            h-12
+            px-6
+            rounded-xl
+            bg-yellow-500
+            hover:bg-yellow-600
+            text-black
+            font-semibold
+            transition-colors
+            whitespace-nowrap
+          "
+              >
+                Subscribe
+              </button>
+            </div>
           </div>
-          <p className="text-white/70 text-sm mt-4">No spam, unsubscribe anytime</p>
+
+          <p className="text-white/70 text-xs sm:text-sm mt-4">
+            No spam. Unsubscribe anytime.
+          </p>
         </div>
       </section>
     </div>
