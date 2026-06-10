@@ -2,14 +2,17 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { Menu, X, Search, ShoppingCart, Heart, LogOut, LogIn, User } from 'lucide-react'
+import { Menu, X, Search, ShoppingCart, Heart, LogOut, LogIn, User, Globe } from 'lucide-react'
 import { useAuth } from '@/lib/auth-context'
 import { useCart } from '@/lib/cart-context'
+import { useLanguage } from '@/app/context/language-context'
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false)
   const { auth, logout } = useAuth()
   const { cart } = useCart()
+  const { language, setLanguage } = useLanguage()
 
   const closeMenu = () => {
     setIsMenuOpen(false)
@@ -28,20 +31,62 @@ export function Header() {
             </span>
           </Link>
 
-          <div className="hidden md:flex flex-1 mx-8 max-w-md">
+          <div className="flex flex-1 mx-4 sm:mx-8 max-w-xs sm:max-w-md">
             <div className="relative w-full group">
               <input
                 type="text"
                 placeholder="Search products..."
-                className="w-full px-4 py-2.5 rounded-xl bg-muted text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary border border-transparent"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-muted text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary border border-transparent text-sm sm:text-base"
               />
-              <button className="absolute right-3 top-3 text-muted-foreground hover:text-primary">
-                <Search className="w-5 h-5" />
+              <button className="absolute right-2 sm:right-3 top-2 sm:top-3 text-muted-foreground hover:text-primary">
+                <Search className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center gap-1 sm:gap-4">
+            <div className="relative">
+              <button
+                onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
+                className="p-2 text-foreground hover:text-primary flex items-center gap-1"
+                title="Change language"
+              >
+                <Globe className="w-5 h-5" />
+                <span className="hidden sm:inline text-sm font-medium uppercase">{language}</span>
+              </button>
+              {isLanguageDropdownOpen && (
+                <div className="absolute right-0 mt-2 bg-white border border-border rounded-lg shadow-lg z-10 min-w-max">
+                  <button
+                    onClick={() => {
+                      setLanguage('en')
+                      setIsLanguageDropdownOpen(false)
+                    }}
+                    className={`block w-full text-left px-4 py-2 text-sm hover:bg-muted ${language === 'en' ? 'bg-primary text-primary-foreground font-semibold' : ''}`}
+                  >
+                    English
+                  </button>
+                  <button
+                    onClick={() => {
+                      setLanguage('ur')
+                      setIsLanguageDropdownOpen(false)
+                    }}
+                    className={`block w-full text-left px-4 py-2 text-sm hover:bg-muted ${language === 'ur' ? 'bg-primary text-primary-foreground font-semibold' : ''}`}
+                  >
+                    اردو
+                  </button>
+                  <button
+                    onClick={() => {
+                      setLanguage('sd')
+                      setIsLanguageDropdownOpen(false)
+                    }}
+                    className={`block w-full text-left px-4 py-2 text-sm hover:bg-muted ${language === 'sd' ? 'bg-primary text-primary-foreground font-semibold' : ''}`}
+                  >
+                    سندھي
+                  </button>
+                </div>
+              )}
+            </div>
+
             <Link href="/cart" onClick={closeMenu} className="relative p-2 text-foreground hover:text-primary">
               <ShoppingCart className="w-6 h-6" />
               {cart.totalItems > 0 && (

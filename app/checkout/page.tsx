@@ -6,11 +6,13 @@ import { useRouter } from 'next/navigation'
 import { MapPin, CreditCard, CheckCircle, AlertCircle, Loader } from 'lucide-react'
 import { useCart } from '@/lib/cart-context'
 import { useAuth } from '@/lib/auth-context'
+import { useLanguage } from '@/app/context/language-context'
 
 export default function CheckoutPage() {
   const router = useRouter()
   const { cart, clearCart } = useCart()
   const { auth } = useAuth()
+  const { t } = useLanguage()
   const [step, setStep] = useState<'shipping' | 'payment' | 'confirmation'>('shipping')
   const [isProcessing, setIsProcessing] = useState(false)
   const [orderNumber, setOrderNumber] = useState('')
@@ -23,7 +25,7 @@ export default function CheckoutPage() {
     city: '',
     province: '',
     zipCode: '',
-    paymentMethod: 'credit_card',
+    paymentMethod: 'cash_on_delivery',
   })
 
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -239,31 +241,46 @@ export default function CheckoutPage() {
             <div className="bg-white rounded-lg border border-border p-8">
               <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
                 <CreditCard className="w-6 h-6 text-primary" />
-                Payment Method
+                {t('selectPaymentMethod')}
               </h2>
 
-              <div className="space-y-4 mb-8">
-                {['credit_card', 'debit_card', 'bank_transfer'].map((method) => (
-                  <label key={method} className="flex items-center p-4 border border-border rounded-lg cursor-pointer hover:bg-muted">
+              <div className="space-y-3 mb-8">
+                {[
+                  { value: 'cash_on_delivery', label: 'cashOnDelivery', icon: '💵' },
+                  { value: 'easypaisa', label: 'easypaisa', icon: '📱' },
+                  { value: 'bank_transfer', label: 'bankTransfer', icon: '🏦' },
+                ].map((method) => (
+                  <label
+                    key={method.value}
+                    className={`flex items-center p-4 border-2 rounded-lg cursor-pointer transition ${
+                      formData.paymentMethod === method.value
+                        ? 'border-primary bg-primary/5'
+                        : 'border-border hover:border-primary/50 hover:bg-muted'
+                    }`}
+                  >
                     <input
                       type="radio"
-                      checked={formData.paymentMethod === method}
+                      checked={formData.paymentMethod === method.value}
                       onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
-                      value={method}
-                      className="rounded-full border-border"
+                      value={method.value}
+                      className="w-5 h-5 accent-primary"
                     />
-                    <span className="ml-3 font-medium text-foreground">
-                      {method === 'credit_card' && 'Credit Card'}
-                      {method === 'debit_card' && 'Debit Card'}
-                      {method === 'bank_transfer' && 'Bank Transfer'}
-                    </span>
+                    <span className="ml-3 text-2xl">{method.icon}</span>
+                    <span className="ml-3 font-medium text-foreground">{t(method.label)}</span>
                   </label>
                 ))}
               </div>
 
               <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-blue-900 text-sm mb-6">
-                <p className="font-medium mb-2">Demo Payment:</p>
-                <p>Use any test card details for this demo. Payment will process instantly.</p>
+                <p className="font-medium mb-2">Payment Information:</p>
+                <p>
+                  {formData.paymentMethod === 'cash_on_delivery' &&
+                    'Pay with cash when your order is delivered.'}
+                  {formData.paymentMethod === 'easypaisa' &&
+                    'Pay securely using Easypaisa mobile wallet.'}
+                  {formData.paymentMethod === 'bank_transfer' &&
+                    'Transfer funds directly to our bank account.'}
+                </p>
               </div>
 
               <div className="flex gap-3">

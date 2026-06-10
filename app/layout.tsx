@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import { AppWrapper } from '@/components/app-wrapper'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
+import { LanguageProvider } from '@/app/context/language-context'
 import './globals.css'
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
@@ -43,12 +44,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`bg-background ${geistSans.variable} ${geistMono.variable}`}>
       <body className="font-sans antialiased text-foreground">
-        <AppWrapper>
-          <Header />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
-        </AppWrapper>
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+        <LanguageProvider>
+          <AppWrapper>
+            <Header />
+            <main className="min-h-screen">{children}</main>
+            <Footer />
+          </AppWrapper>
+          {process.env.NODE_ENV === 'production' && <Analytics />}
+        </LanguageProvider>
       </body>
     </html>
   )

@@ -1,9 +1,13 @@
+'use client'
+
 import Link from 'next/link'
 import { ArrowRight, Award, Truck, Shield } from 'lucide-react'
 import { ProductCard } from '@/components/product-card'
 import { mockProducts, mockSellers, categories } from '@/lib/mock-data'
+import { useLanguage } from '@/app/context/language-context'
 
 export default function Home() {
+  const { t } = useLanguage()
   const featuredProducts = mockProducts.slice(0, 8)
   const featuredSellers = mockSellers.slice(0, 3)
 
@@ -21,18 +25,18 @@ export default function Home() {
               <div className="inline-block mb-6 px-4 py-2 bg-primary/10 rounded-full">
                 <span className="text-sm font-semibold text-primary">Empowering Women Entrepreneurs</span>
               </div>
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight text-foreground">
-                Discover Authentic <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">Sindhi Crafts</span>
+              <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight text-foreground text-balance">
+                {t('heroTitle').split(' ').slice(0, 2).join(' ')} <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">{t('heroTitle').split(' ').slice(2).join(' ')}</span>
               </h1>
-              <p className="text-xl text-muted-foreground mb-8 leading-relaxed max-w-lg">
-                Support verified women entrepreneurs from Sindh. Shop handcrafted textiles, jewelry, embroidery, and authentic artisan products with guaranteed quality.
+              <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed max-w-lg">
+                {t('heroSubtitle')}
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/categories"
                   className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold hover-lift hover:shadow-lg transition-smooth"
                 >
-                  Explore Collection
+                  {t('exploreCollection')}
                   <ArrowRight className="w-5 h-5" />
                 </Link>
                 <Link
@@ -56,6 +60,13 @@ export default function Home() {
                   <p className="text-muted-foreground text-sm">Happy Customers</p>
                 </div>
               </div>
+            </div>
+            <div className="flex md:hidden items-center justify-center mt-8 animate-slide-in-right">
+              <img
+                src="/sindhi-girl-hero.png"
+                alt="Sindhi woman with traditional embroidered crafts"
+                className="w-full h-auto max-h-96 rounded-2xl shadow-lg hover-lift object-cover"
+              />
             </div>
             <div className="hidden md:flex items-center justify-center animate-slide-in-right">
               <img

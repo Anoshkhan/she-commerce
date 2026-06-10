@@ -4,10 +4,12 @@ import Link from 'next/link'
 import { Minus, Plus, Trash2, ShoppingCart, ArrowRight } from 'lucide-react'
 import { useCart } from '@/lib/cart-context'
 import { useAuth } from '@/lib/auth-context'
+import { useLanguage } from '@/app/context/language-context'
 
 export default function CartPage() {
   const { cart, removeFromCart, updateQuantity } = useCart()
   const { auth } = useAuth()
+  const { t } = useLanguage()
 
   const groupedByCustomer = cart.items.reduce(
     (acc, item) => {
@@ -41,7 +43,7 @@ export default function CartPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-3xl font-bold text-foreground mb-8">Shopping Cart</h1>
+      <h1 className="text-3xl font-bold text-foreground mb-8">{t('shoppingCart')}</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Cart Items */}
