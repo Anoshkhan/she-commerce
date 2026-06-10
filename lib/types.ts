@@ -31,6 +31,10 @@ export interface Seller {
   specialties: string[]
   responseTime: string
   joinDate: Date
+  artisanName?: string
+  artisanLocation?: string
+  yearsInCraft?: number
+  artisanStory?: string
 }
 
 export interface Product {
@@ -52,6 +56,10 @@ export interface Product {
   createdAt: Date
   handmade: boolean
   certificateOfAuthenticity?: string
+  artisanName?: string
+  artisanLocation?: string
+  yearsInCraft?: number
+  artisanStory?: string
 }
 
 export interface CartItem {

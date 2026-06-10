@@ -1,10 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { Star, Heart, ShoppingCart, Badge } from 'lucide-react'
+import { Star, Heart, ShoppingCart, Badge, Users } from 'lucide-react'
 import { Product } from '@/lib/types'
 import { useCart } from '@/lib/cart-context'
 import { useWishlist } from '@/lib/wishlist-context'
+import { useLanguage } from '@/app/context/language-context'
 import { useState } from 'react'
 
 interface ProductCardProps {
@@ -14,6 +15,7 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart()
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlist()
+  const { t } = useLanguage()
   const isInWishlist = wishlist.items.includes(product.id)
   const [isAdding, setIsAdding] = useState(false)
 
@@ -79,7 +81,14 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
 
         <div className="p-4">
-          <p className="text-xs text-muted-foreground mb-2">{product.sellerName}</p>
+          <p className="text-xs text-muted-foreground mb-1 font-medium">{product.sellerName}</p>
+
+          {product.artisanName && (
+            <p className="text-xs text-accent font-semibold mb-2 flex items-center gap-1">
+              <Users className="w-3 h-3" />
+              {product.artisanName}
+            </p>
+          )}
 
           <h3 className="font-semibold text-foreground line-clamp-2 mb-2 group-hover:text-primary">
             {product.name}

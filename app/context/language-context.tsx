@@ -57,6 +57,91 @@ const translations: Translations = {
     en: 'Select Payment Method',
     ur: 'ادائیگی کا طریقہ منتخب کریں',
     sd: 'ادائيگي جو طريقو منتخب ڪريو'
+  },
+  meetTheArtisan: {
+    en: 'Meet the Artisan',
+    ur: 'کاریگر سے ملیں',
+    sd: 'ڪارگر سان ملو'
+  },
+  experience: {
+    en: 'Experience',
+    ur: 'تجربہ',
+    sd: 'تجربو'
+  },
+  yearsInCraft: {
+    en: 'years in craft',
+    ur: 'سال میں دستکاری',
+    sd: 'سال ۾ دستڪاري'
+  },
+  artisanStory: {
+    en: 'Artisan&apos;s Story',
+    ur: 'کاریگر کی کہانی',
+    sd: 'ڪارگر جي ڪهاڻي'
+  },
+  verifiedWomenEntrepreneur: {
+    en: 'Verified Women Entrepreneur',
+    ur: 'تصدیق شدہ خاتون کاروباری',
+    sd: 'تصديق ڪل خاتون ڪاروباري'
+  },
+  supportLocalCrafts: {
+    en: 'Support Local Crafts',
+    ur: 'مقامی دستکاری کی حمایت کریں',
+    sd: 'مقامي دستڪاري جي حمايت ڪريو'
+  },
+  authenticAndHandmade: {
+    en: 'Authentic & Handmade',
+    ur: 'اصل اور ہاتھ سے بنی',
+    sd: 'اصل ۽ هاٿ سان بني'
+  },
+  trustAndQuality: {
+    en: 'Trust & Quality',
+    ur: 'اعتماد اور معیار',
+    sd: 'اعتماد ۽ معيار'
+  },
+  quickView: {
+    en: 'Quick View',
+    ur: 'جلدی دیکھیں',
+    sd: 'جلدي ڏسو'
+  },
+  addToCart: {
+    en: 'Add to Cart',
+    ur: 'کارٹ میں شامل کریں',
+    sd: 'ڪارٽ ۾ شامل ڪريو'
+  },
+  viewDetails: {
+    en: 'View Details',
+    ur: 'تفصیلات دیکھیں',
+    sd: 'تفصيلات ڏسو'
+  },
+  location: {
+    en: 'Location',
+    ur: 'مقام',
+    sd: 'مقام'
+  },
+  featured: {
+    en: 'Featured',
+    ur: 'خصوصی',
+    sd: 'خصوصي'
+  },
+  aboutUs: {
+    en: 'About Us',
+    ur: 'ہمارے بارے میں',
+    sd: 'اسان بارو ۾'
+  },
+  contactUs: {
+    en: 'Contact Us',
+    ur: 'ہم سے رابطہ کریں',
+    sd: 'اسان سان رابطو ڪريو'
+  },
+  followUs: {
+    en: 'Follow Us',
+    ur: 'ہمیں فالو کریں',
+    sd: 'اسان کي فالو ڪريو'
+  },
+  copyright: {
+    en: 'All rights reserved. Celebrating Sindhi women artisans.',
+    ur: 'تمام حقوق محفوظ ہیں۔ سندھی خواتین کاریگروں کو سلام۔',
+    sd: 'تمام حقوق محفوظ آهن۔ سندھي خواتين ڪاريگرن کو سلام۔'
   }
 }
 

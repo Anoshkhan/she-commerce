@@ -49,42 +49,42 @@
 }
 
 :root {
-  /* Light mode - Professional Dark Purple & White */
+  /* Light mode - Premium Deep Purple & Warm Neutrals */
   --background: oklch(0.995 0 0);
   --foreground: oklch(0.12 0.01 0);
   --card: oklch(0.99 0.002 0);
   --card-foreground: oklch(0.12 0.01 0);
   --popover: oklch(0.99 0.002 0);
   --popover-foreground: oklch(0.12 0.01 0);
-  /* Primary: Professional Dark Purple (#5E3B96 approximated) */
-  --primary: oklch(0.38 0.18 290);
+  /* Primary: Deep Purple (#5B21B6 - Premium) */
+  --primary: oklch(0.36 0.18 290);
   --primary-foreground: oklch(0.98 0.001 0);
-  /* Secondary: Rich Purple (#7B4EDE) */
-  --secondary: oklch(0.55 0.22 290);
+  /* Secondary: Rose Pink (#EC4899 - Premium accent) */
+  --secondary: oklch(0.62 0.22 330);
   --secondary-foreground: oklch(0.98 0.001 0);
   --muted: oklch(0.96 0.002 0);
   --muted-foreground: oklch(0.58 0.02 0);
-  /* Accent: Gold/Amber (#D4A574) */
-  --accent: oklch(0.68 0.12 75);
+  /* Accent: Warm Gold (#D97706 - Premium) */
+  --accent: oklch(0.60 0.18 70);
   --accent-foreground: oklch(0.12 0.01 0);
   --destructive: oklch(0.63 0.2 25);
   --border: oklch(0.94 0.002 0);
   --input: oklch(0.97 0.002 0);
-  --ring: oklch(0.38 0.18 290);
-  --chart-1: oklch(0.38 0.18 290);
-  --chart-2: oklch(0.55 0.22 290);
-  --chart-3: oklch(0.68 0.12 75);
+  --ring: oklch(0.36 0.18 290);
+  --chart-1: oklch(0.36 0.18 290);
+  --chart-2: oklch(0.62 0.22 330);
+  --chart-3: oklch(0.60 0.18 70);
   --chart-4: oklch(0.58 0.02 0);
   --chart-5: oklch(0.63 0.2 25);
   --radius: 0.625rem;
   --sidebar: oklch(0.99 0.002 0);
   --sidebar-foreground: oklch(0.12 0.01 0);
-  --sidebar-primary: oklch(0.38 0.18 290);
+  --sidebar-primary: oklch(0.36 0.18 290);
   --sidebar-primary-foreground: oklch(0.98 0.001 0);
-  --sidebar-accent: oklch(0.68 0.12 75);
+  --sidebar-accent: oklch(0.60 0.18 70);
   --sidebar-accent-foreground: oklch(0.12 0.01 0);
   --sidebar-border: oklch(0.94 0.002 0);
-  --sidebar-ring: oklch(0.38 0.18 290);
+  --sidebar-ring: oklch(0.36 0.18 290);
 }
 
 .dark {
