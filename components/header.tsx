@@ -1,18 +1,19 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { Menu, X, Search, ShoppingCart, Heart, LogOut, LogIn, User } from 'lucide-react'
 import { useAuth } from '@/lib/auth-context'
 import { useCart } from '@/lib/cart-context'
-import { useRouter } from 'next/navigation' // Imported to handle search redirection
+import { useRouter } from 'next/navigation'
 
 export function Header() {
   const router = useRouter()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('') // Tracks user's input
-  
+  const [searchQuery, setSearchQuery] = useState('')
+
   const { auth, logout } = useAuth()
   const { cart } = useCart()
 
@@ -21,15 +22,11 @@ export function Header() {
     setIsSearchOpen(false)
   }
 
-  // Handles executing the search action
   const handleSearchSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault()
-    
+
     if (searchQuery.trim()) {
-      // Execute your search logic here (e.g., redirecting to products page)
       router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}`)
-      
-      // Crucial part: Reset text and close the mobile search container
       setSearchQuery('')
       setIsSearchOpen(false)
     }
@@ -41,19 +38,22 @@ export function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" onClick={closeAllMenus} className="flex items-center gap-3 group">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center shadow-md">
-              <span className="text-white text-lg font-bold">S</span>
-            </div>
+            <Image
+              src="/logo.png"
+              alt="SheCommerce Logo"
+              width={48}
+              height={48}
+              className="w-12 h-12 rounded-xl object-cover shadow-md"
+              priority
+            />
+
             <span className="hidden sm:block font-bold text-lg bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               SheCommerce
             </span>
           </Link>
 
-          {/* Desktop Search Bar (Submits on Enter or Button Click) */}
-          <form 
-            onSubmit={handleSearchSubmit} 
-            className="hidden md:flex flex-1 mx-8 max-w-md"
-          >
+          {/* Desktop Search Bar */}
+          <form onSubmit={handleSearchSubmit} className="hidden md:flex flex-1 mx-8 max-w-md">
             <div className="relative w-full group">
               <input
                 type="text"
@@ -70,7 +70,6 @@ export function Header() {
 
           {/* Navigation Action Buttons */}
           <div className="flex items-center gap-1 sm:gap-4">
-            {/* Mobile Search Toggle Button */}
             <button
               type="button"
               onClick={() => {
@@ -116,7 +115,6 @@ export function Header() {
               </Link>
             )}
 
-            {/* Hamburger Mobile Menu Toggle Button */}
             <button
               type="button"
               onClick={() => {
@@ -130,9 +128,8 @@ export function Header() {
           </div>
         </div>
 
-        {/* Dedicated Mobile Expandable Search Bar */}
         {isSearchOpen && (
-          <form 
+          <form
             onSubmit={handleSearchSubmit}
             className="md:hidden pb-4 pt-2 border-t border-border animate-in fade-in slide-in-from-top-2 duration-200"
           >
@@ -145,17 +142,13 @@ export function Header() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full px-4 py-2.5 pr-10 rounded-xl bg-muted text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary border border-transparent"
               />
-              <button 
-                type="submit" 
-                className="absolute right-5 top-3 text-muted-foreground hover:text-primary"
-              >
+              <button type="submit" className="absolute right-5 top-3 text-muted-foreground hover:text-primary">
                 <Search className="w-5 h-5" />
               </button>
             </div>
           </form>
         )}
 
-        {/* Mobile Navigation Dropdown Menu */}
         {isMenuOpen && (
           <div className="md:hidden pb-4 border-t border-border animate-in fade-in duration-200">
             <nav className="space-y-2 mt-4">

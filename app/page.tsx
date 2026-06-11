@@ -7,10 +7,38 @@ export default function Home() {
   const featuredProducts = mockProducts.slice(0, 8)
   const featuredSellers = mockSellers.slice(0, 3)
 
+  // Helper function to dynamically change icons based on category names
+// Helper function with expanded, flexible keyword mapping
+  const getCategoryEmoji = (categoryName: string) => {
+    const name = categoryName.toLowerCase().trim();
+
+    // 1. Traditional Clothing & Textiles
+    if (['clothing', 'saree', 'suit', 'dress', 'textile', 'kurta', 'shalwar', 'dupatta', 'ajrak'].some(term => name.includes(term))) {
+      return '👗';
+    }
+    // 2. Jewelry & Cultural Adornments
+    if (['jewelry', 'jewellery', 'bangle', 'earring', 'silver', 'necklace', 'ring'].some(term => name.includes(term))) {
+      return '✨';
+    }
+    // 3. Home Decor & Handicrafts
+    if (['home decor', 'handicraft', 'mirror', 'ralli', 'cushion', 'wall hanging', 'pottery'].some(term => name.includes(term))) {
+      return '🏮';
+    }
+    // 4. Accessories
+    if (['accessories', 'bag', 'clutch', 'wallet'].some(term => name.includes(term))) {
+      return '👜';
+    }
+    // 5. Food & Organic
+    if (['food', 'spice', 'honey', 'mango', 'organic'].some(term => name.includes(term))) {
+      return '🌿';
+    }
+
+    return '🎁'; // Default fallback
+  };
   return (
     <div>
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-white pt-20 pb-32 md:pt-32 md:pb-40">
+      {/* Hero Section - Hidden on mobile width, block layout on medium screens and up */}
+      <section className="hidden md:block relative overflow-hidden bg-white pt-20 pb-32 md:pt-32 md:pb-40">
         {/* Animated background elements */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full -mr-48 -mt-48 animate-float"></div>
         <div className="absolute bottom-0 left-0 w-72 h-72 bg-secondary/5 rounded-full -ml-32 -mb-32 animate-float animation-delay-2000"></div>
@@ -68,8 +96,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="bg-gradient-to-b from-white to-muted py-16 md:py-20">
+      {/* Features Section - Hidden on mobile width, block layout on medium screens and up */}
+      <section className="hidden md:block bg-gradient-to-b from-white to-muted py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="group animate-fade-in-up p-8 bg-white rounded-2xl border border-border hover:border-primary transition-smooth hover:shadow-lg">
@@ -103,20 +131,21 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Categories Section */}
+      {/* Categories Section - Starts first on mobile viewports */}
       <section className="py-12 bg-muted">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-3xl font-bold text-foreground">Shop by Category</h2>
+            <h2 className="text-3xl font-bold text-foreground">Categories</h2>
             <Link href="/categories" className="text-primary font-medium hover:underline">
               View All
             </Link>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {categories.map((category) => (
-              <Link key={category.id} href={`/categories/${category.id}`}>
+              <Link key={category.id} href={`/categories?category=${category.id}`}>
                 <div className="bg-white p-6 rounded-lg border border-border hover:border-primary hover:shadow-md transition text-center">
-                  <div className="text-4xl mb-2">📦</div>
+                  {/* Updated dynamic layout icon mapping based on name */}
+                  <div className="text-4xl mb-2">{getCategoryEmoji(category.name)}</div>
                   <h3 className="font-semibold text-foreground">{category.name}</h3>
                 </div>
               </Link>
@@ -187,7 +216,7 @@ export default function Home() {
       <section className="bg-gradient-to-r from-secondary to-primary text-white py-12 md:py-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight">
-            Stay Updated on
+            Stay Updated on {" "}
             <br className="sm:hidden" />
             New Products
           </h2>
@@ -199,7 +228,7 @@ export default function Home() {
           <div className="max-w-lg mx-auto">
             <div className="flex flex-col sm:flex-row gap-3 bg-white/10 backdrop-blur-sm p-2 sm:p-3 rounded-2xl">
               <input
-                type="email"
+                type="type"
                 placeholder="Enter your email"
                 className="
             w-full

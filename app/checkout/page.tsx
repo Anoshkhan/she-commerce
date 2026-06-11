@@ -3,7 +3,22 @@
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { MapPin, CreditCard, CheckCircle, AlertCircle, Loader, Truck, Lock, Smartphone, ArrowRight, ShoppingBag } from 'lucide-react'
+import { 
+  MapPin, 
+  CreditCard, 
+  CheckCircle, 
+  AlertCircle, 
+  Loader, 
+  Truck, 
+  Lock, 
+  Smartphone, 
+  ArrowRight, 
+  ShoppingBag,
+  Shirt,      // Icon for Sarees/Apparel
+  Scissors,   // Icon for Handicrafts/Ajrak
+  Sparkles,   // Icon for Jewelry/Bangles
+  Utensils    // Icon for Spices/Mangoes
+} from 'lucide-react'
 import { useCart } from '@/lib/cart-context'
 import { useAuth } from '@/lib/auth-context'
 
@@ -34,6 +49,21 @@ export default function CheckoutPage() {
 
   const [errors, setErrors] = useState<Record<string, string>>({})
 
+  // Helper mapping to render relevant icons per product category
+  const getCategoryIcon = (categoryName: string) => {
+    const name = categoryName.toLowerCase()
+    if (name.includes('saree') || name.includes('cloth') || name.includes('apparel') || name.includes('suit')) {
+      return <Shirt className="w-4 h-4 text-primary" />
+    }
+    if (name.includes('ajrak') || name.includes('handicraft') || name.includes('mirror') || name.includes('bed')) {
+      return <Scissors className="w-4 h-4 text-orange-600" />
+    }
+    if (name.includes('bangle') || name.includes('jewelry') || name.includes('earring') || name.includes('silver')) {
+      return <Sparkles className="w-4 h-4 text-amber-500" />
+    }
+    return <Utensils className="w-4 h-4 text-emerald-600" /> // Default fallback for spices/food items
+  }
+
   const computedTotalBill = useMemo(() => {
     if (!cart?.items) return 0
     return cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0)
@@ -47,9 +77,8 @@ export default function CheckoutPage() {
         <p className="text-muted-foreground mb-6">Add items to your cart before checking out</p>
         <Link
           href="/products"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-medium rounded-lg hover:opacity-90 transition"
+          className="inline-block px-6 py-3 bg-primary text-primary-foreground font-medium rounded-lg hover:opacity-90 transition"
         >
-          <ShoppingBag className="w-4 h-4" />
           Continue Shopping
         </Link>
       </div>
@@ -152,7 +181,20 @@ export default function CheckoutPage() {
   return (
     <div className="w-full max-w-7xl mx-auto px-4 py-4 sm:py-8 overflow-x-hidden box-border">
       
-      {/* FIXED: Removed min-w-md constraint to prevent horizontal page scrolling */}
+      {/* BRAND HERO HEADER: Updated with 'hidden md:flex' to completely vanish on mobile screens */}
+      <div className="hidden md:flex items-center justify-center gap-3 mb-6 w-full max-w-full box-border">
+        <img 
+          src="/logo.jpeg" 
+          alt="SheCommerce Logo" 
+          className="w-16 h-16 object-contain rounded-xl border border-border/40 shadow-sm shrink-0" 
+        />
+        <div className="min-w-0">
+          <h1 className="text-2xl font-extrabold tracking-tight text-foreground truncate">SheCommerce</h1>
+          <p className="text-xs text-muted-foreground font-medium">Secure Checkout Portal</p>
+        </div>
+      </div>
+
+      {/* Dynamic Header Flow Status */}
       <div className="flex justify-between items-center mb-6 w-full max-w-full bg-muted/40 p-2 rounded-xl border border-border/60 box-border">
         {['shipping', 'payment', 'confirmation'].map((s, idx) => (
           <div key={s} className="flex items-center gap-1 justify-center flex-1 min-w-0">
@@ -179,10 +221,10 @@ export default function CheckoutPage() {
         ))}
       </div>
 
-      {/* Grid wrapper container with structural viewport shields */}
+      {/* Main Structural Layout Wrapper */}
       <div className="flex flex-col lg:grid lg:grid-cols-3 gap-6 w-full max-w-full overflow-hidden box-border">
         
-        {/* Step panel columns */}
+        {/* Step Panel Columns */}
         <div className="w-full min-w-0 order-1 lg:col-span-2">
           {step === 'shipping' && (
             <div className="bg-white rounded-lg border border-border p-4 shadow-sm w-full box-border">
@@ -290,7 +332,6 @@ export default function CheckoutPage() {
               </h2>
 
               <div className="space-y-3 mb-4 w-full">
-                {/* COD Option */}
                 <label className={`flex items-start p-3 border rounded-lg cursor-pointer transition ${formData.paymentMethod === 'cod' ? 'border-primary bg-muted/40 ring-1 ring-primary' : 'border-border'} w-full box-border`}>
                   <input
                     type="radio"
@@ -307,7 +348,6 @@ export default function CheckoutPage() {
                   </div>
                 </label>
 
-                {/* EasyPaisa Wallet Option */}
                 <label className={`flex items-start p-3 border rounded-lg cursor-pointer transition ${formData.paymentMethod === 'easypaisa' ? 'border-primary bg-muted/40 ring-1 ring-primary' : 'border-border'} w-full box-border`}>
                   <input
                     type="radio"
@@ -324,7 +364,6 @@ export default function CheckoutPage() {
                   </div>
                 </label>
 
-                {/* JazzCash Wallet Option */}
                 <label className={`flex items-start p-3 border rounded-lg cursor-pointer transition ${formData.paymentMethod === 'jazzcash' ? 'border-primary bg-muted/40 ring-1 ring-primary' : 'border-border'} w-full box-border`}>
                   <input
                     type="radio"
@@ -341,7 +380,6 @@ export default function CheckoutPage() {
                   </div>
                 </label>
 
-                {/* Debit Card option */}
                 <label className={`flex items-start p-3 border rounded-lg cursor-pointer transition ${formData.paymentMethod === 'card' ? 'border-primary bg-muted/40 ring-1 ring-primary' : 'border-border'} w-full box-border`}>
                   <input
                     type="radio"
@@ -358,7 +396,6 @@ export default function CheckoutPage() {
                   </div>
                 </label>
 
-                {/* Number verification node for mobile apps */}
                 {['easypaisa', 'jazzcash'].includes(formData.paymentMethod) && walletSimStep === 'idle' && (
                   <div className="mt-2 p-3 bg-muted/30 rounded-lg border border-border w-full box-border">
                     <label className="block text-xs font-medium text-foreground mb-1 capitalize">
@@ -374,7 +411,6 @@ export default function CheckoutPage() {
                   </div>
                 )}
 
-                {/* Mock gateway status view frame overlay */}
                 {['easypaisa', 'jazzcash'].includes(formData.paymentMethod) && walletSimStep !== 'idle' && (
                   <div className="mt-2 p-4 bg-slate-900 text-white rounded-xl border border-slate-800 space-y-3 text-center w-full box-border overflow-hidden">
                     {walletSimStep === 'sending' && (
@@ -453,15 +489,21 @@ export default function CheckoutPage() {
           )}
         </div>
 
-        {/* Order Summary list component */}
-        <div className="w-full min-w-0 order-2 lg:col-span-1">
+        {/* Right Sidebar - Calculations Box & Fixed Dynamic Categories */}
+        <div className="w-full min-w-0 order-2 lg:col-span-1 space-y-4">
+          
+          {/* Order Summary box */}
           <div className="bg-white rounded-lg border border-border p-4 shadow-sm w-full box-border overflow-hidden">
             <h3 className="font-bold text-sm sm:text-base text-foreground mb-3">Order Summary</h3>
             
             <div className="space-y-2 mb-3 max-h-36 overflow-y-auto pr-1 w-full box-border">
               {cart.items.map((item) => (
                 <div key={item.id} className="flex justify-between items-start text-xs text-muted-foreground gap-2 w-full min-w-0">
-                  <span className="truncate flex-1 min-w-0 break-words">{item.product.name} <span className="text-foreground/60">x{item.quantity}</span></span>
+                  <span className="truncate flex-1 min-w-0 break-words flex items-center gap-1.5">
+                    {getCategoryIcon(item.product.name)}
+                    <span className="truncate">{item.product.name}</span>
+                    <span className="text-foreground/60 shrink-0">x{item.quantity}</span>
+                  </span>
                   <span className="font-medium text-foreground shrink-0 ml-1">₨{(item.price * item.quantity).toLocaleString()}</span>
                 </div>
               ))}
@@ -486,6 +528,34 @@ export default function CheckoutPage() {
               </div>
             </div>
           </div>
+
+          {/* Feature Badges Section (Hidden completely on mobile widths via 'hidden md:block') */}
+          <div className="hidden md:block bg-muted/30 border border-border rounded-lg p-4 space-y-4">
+            <div className="flex items-start gap-3">
+              <CheckCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+              <div>
+                <h4 className="text-xs font-bold text-foreground">Verified Sellers</h4>
+                <p className="text-[11px] text-muted-foreground mt-0.5">All sellers are government-verified women entrepreneurs from Sindh with authentic credentials.</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <Truck className="w-5 h-5 text-orange-500 shrink-0 mt-0.5" />
+              <div>
+                <h4 className="text-xs font-bold text-foreground">Fast Delivery</h4>
+                <p className="text-[11px] text-muted-foreground mt-0.5">Quick and safe delivery across Pakistan with real-time tracking and insurance.</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <Lock className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+              <div>
+                <h4 className="text-xs font-bold text-foreground">Secure Shopping</h4>
+                <p className="text-[11px] text-muted-foreground mt-0.5">Safe payments, data protection, and 100% buyer protection guarantee on every purchase.</p>
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </div>

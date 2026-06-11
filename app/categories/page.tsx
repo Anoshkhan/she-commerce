@@ -1,21 +1,23 @@
 'use client'
 
-import Link from 'next/link'
 import { useState } from 'react'
-import { Star, SlidersHorizontal } from 'lucide-react'
+import { useSearchParams, useRouter } from 'next/navigation'
+import { SlidersHorizontal } from 'lucide-react'
 import { ProductCard } from '@/components/product-card'
 import { mockProducts, categories } from '@/lib/mock-data'
 
 export default function CategoriesPage() {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
+  const categoryParam = searchParams.get('category')
+  const selectedCategory = categories.find((cat) => cat.id === categoryParam) || null
+
   const [sortBy, setSortBy] = useState('featured')
   const [showFilters, setShowFilters] = useState(false)
 
   const filtered = selectedCategory
-    ? mockProducts.filter((p) => {
-        const cat = categories.find((c) => c.id === selectedCategory)
-        return p.category === cat?.name
-      })
+    ? mockProducts.filter((product) => product.category === selectedCategory.name)
     : mockProducts
 
   const sorted = [...filtered].sort((a, b) => {
@@ -33,12 +35,22 @@ export default function CategoriesPage() {
     }
   })
 
+  const handleCategoryClick = (categoryId: string | null) => {
+    if (categoryId) {
+      router.push(`/categories?category=${categoryId}`)
+    } else {
+      router.push('/categories')
+    }
+
+    setShowFilters(false)
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-foreground mb-2">
-          {selectedCategory ? categories.find((c) => c.id === selectedCategory)?.name : 'All Products'}
+          {selectedCategory ? selectedCategory.name : 'All Products'}
         </h1>
         <p className="text-muted-foreground">{sorted.length} products found</p>
       </div>
@@ -60,21 +72,27 @@ export default function CategoriesPage() {
             {/* Categories Filter */}
             <div className="mb-6">
               <h3 className="font-bold text-foreground mb-4">Categories</h3>
+
               <div className="space-y-2">
                 <button
-                  onClick={() => setSelectedCategory(null)}
+                  onClick={() => handleCategoryClick(null)}
                   className={`block w-full text-left px-3 py-2 rounded-lg transition ${
-                    !selectedCategory ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+                    !selectedCategory
+                      ? 'bg-primary text-primary-foreground'
+                      : 'hover:bg-muted'
                   }`}
                 >
                   All Categories
                 </button>
+
                 {categories.map((cat) => (
                   <button
                     key={cat.id}
-                    onClick={() => setSelectedCategory(cat.id)}
+                    onClick={() => handleCategoryClick(cat.id)}
                     className={`block w-full text-left px-3 py-2 rounded-lg transition ${
-                      selectedCategory === cat.id ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+                      selectedCategory?.id === cat.id
+                        ? 'bg-primary text-primary-foreground'
+                        : 'hover:bg-muted'
                     }`}
                   >
                     {cat.name}
@@ -97,6 +115,7 @@ export default function CategoriesPage() {
             {/* Rating Filter */}
             <div>
               <h3 className="font-bold text-foreground mb-4">Rating</h3>
+
               <div className="space-y-2">
                 {[5, 4, 3].map((stars) => (
                   <label key={stars} className="flex items-center gap-2 cursor-pointer">
@@ -148,9 +167,12 @@ export default function CategoriesPage() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-muted-foreground mb-4">No products found in this category</p>
+              <p className="text-muted-foreground mb-4">
+                No products found in this category
+              </p>
+
               <button
-                onClick={() => setSelectedCategory(null)}
+                onClick={() => handleCategoryClick(null)}
                 className="text-primary font-medium hover:underline"
               >
                 View all products
