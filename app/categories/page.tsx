@@ -55,7 +55,6 @@ function CategoriesContent() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-foreground mb-2">
           {selectedCategory ? selectedCategory.name : 'All Products'}
@@ -64,7 +63,6 @@ function CategoriesContent() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {/* Filters - Sidebar */}
         <div className={`lg:block ${showFilters ? 'block' : 'hidden'}`}>
           <div className="bg-white rounded-lg border border-border p-6 sticky top-20">
             <div className="flex items-center justify-between mb-6 lg:hidden">
@@ -77,7 +75,6 @@ function CategoriesContent() {
               </button>
             </div>
 
-            {/* Categories Filter */}
             <div className="mb-6">
               <h3 className="font-bold text-foreground mb-4">Categories</h3>
 
@@ -109,7 +106,6 @@ function CategoriesContent() {
               </div>
             </div>
 
-            {/* Price Filter */}
             <div className="mb-6">
               <h3 className="font-bold text-foreground mb-4">Price Range</h3>
               <input type="range" min="0" max="10000" className="w-full" />
@@ -120,7 +116,6 @@ function CategoriesContent() {
               </div>
             </div>
 
-            {/* Rating Filter */}
             <div>
               <h3 className="font-bold text-foreground mb-4">Rating</h3>
 
@@ -141,9 +136,7 @@ function CategoriesContent() {
           </div>
         </div>
 
-        {/* Products */}
         <div className="lg:col-span-3">
-          {/* Sort & Filters Toggle */}
           <div className="flex items-center justify-between mb-6">
             <select
               value={sortBy}
@@ -166,7 +159,6 @@ function CategoriesContent() {
             </button>
           </div>
 
-          {/* Product Grid */}
           {sorted.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {sorted.map((product) => (
