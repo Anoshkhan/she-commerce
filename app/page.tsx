@@ -26,7 +26,7 @@ export default function Home() {
                 <span className="text-sm font-semibold text-primary">Empowering Women Entrepreneurs</span>
               </div>
               <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight text-foreground text-balance">
-                {t('heroTitle').split(' ').slice(0, 2).join(' ')} <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">{t('heroTitle').split(' ').slice(2).join(' ')}</span>
+                {t('heroTitle')}
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed max-w-lg">
                 {t('heroSubtitle')}
@@ -80,7 +80,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="bg-gradient-to-b from-white to-muted py-16 md:py-20">
+      <section className="bg-white py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="group animate-fade-in-up p-8 bg-white rounded-2xl border border-border hover:border-primary transition-smooth hover:shadow-lg">
@@ -195,7 +195,7 @@ export default function Home() {
       </section>
 
       {/* Newsletter Section */}
-      <section className="bg-gradient-to-r from-secondary to-primary text-white py-12 md:py-20">
+      <section className="bg-primary text-white py-12 md:py-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight">
             Stay Updated on

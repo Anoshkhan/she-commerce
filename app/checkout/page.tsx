@@ -229,7 +229,7 @@ export default function CheckoutPage() {
 
                 <button
                   onClick={handleShippingNext}
-                  className="w-full py-3 bg-gradient-to-r from-primary to-secondary text-primary-foreground font-medium rounded-lg hover:opacity-90 transition mt-6"
+                  className="w-full py-3 bg-primary text-primary-foreground font-medium rounded-lg hover:opacity-90 transition mt-6"
                 >
                   Continue to Payment
                 </button>
@@ -244,18 +244,18 @@ export default function CheckoutPage() {
                 {t('selectPaymentMethod')}
               </h2>
 
-              <div className="space-y-3 mb-8">
+              <div className="space-y-2 mb-8">
                 {[
-                  { value: 'cash_on_delivery', label: 'cashOnDelivery', icon: '💵' },
-                  { value: 'easypaisa', label: 'easypaisa', icon: '📱' },
-                  { value: 'bank_transfer', label: 'bankTransfer', icon: '🏦' },
+                  { value: 'cash_on_delivery', label: 'cashOnDelivery' },
+                  { value: 'easypaisa', label: 'easypaisa' },
+                  { value: 'bank_transfer', label: 'bankTransfer' },
                 ].map((method) => (
                   <label
                     key={method.value}
-                    className={`flex items-center p-4 border-2 rounded-lg cursor-pointer transition ${
+                    className={`flex items-center p-3 border rounded-lg cursor-pointer transition ${
                       formData.paymentMethod === method.value
-                        ? 'border-primary bg-primary/5'
-                        : 'border-border hover:border-primary/50 hover:bg-muted'
+                        ? 'border-primary bg-white'
+                        : 'border-border hover:border-muted-foreground/30'
                     }`}
                   >
                     <input
@@ -263,10 +263,9 @@ export default function CheckoutPage() {
                       checked={formData.paymentMethod === method.value}
                       onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
                       value={method.value}
-                      className="w-5 h-5 accent-primary"
+                      className="w-4 h-4 accent-primary"
                     />
-                    <span className="ml-3 text-2xl">{method.icon}</span>
-                    <span className="ml-3 font-medium text-foreground">{t(method.label)}</span>
+                    <span className="ml-3 font-medium text-foreground text-sm">{t(method.label)}</span>
                   </label>
                 ))}
               </div>
