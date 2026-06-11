@@ -1,12 +1,20 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { SlidersHorizontal } from 'lucide-react'
 import { ProductCard } from '@/components/product-card'
 import { mockProducts, categories } from '@/lib/mock-data'
 
 export default function CategoriesPage() {
+  return (
+    <Suspense fallback={<div className="p-8">Loading categories...</div>}>
+      <CategoriesContent />
+    </Suspense>
+  )
+}
+
+function CategoriesContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
 
