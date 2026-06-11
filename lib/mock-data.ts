@@ -404,7 +404,7 @@ export const categories = [
   { id: 'home-decor', name: 'Home Decor', icon: 'Home' },
   { id: 'accessories', name: 'Accessories', icon: 'Briefcase' },
   { id: 'food-spices', name: 'Food & Spices', icon: 'UtensilsCrossed' },
-  { id: 'art-culture', name: 'Art & Culture', icon: 'Palette' },
-  { id: 'beauty', name: 'Beauty', icon: 'Sparkles' },
-  { id: 'handicrafts', name: 'Handicrafts', icon: 'Hammer' },
+  // { id: 'art-culture', name: 'Art & Culture', icon: 'Palette' },
+  // { id: 'beauty', name: 'Beauty', icon: 'Sparkles' },
+  // { id: 'handicrafts', name: 'Handicrafts', icon: 'Hammer' },
 ]

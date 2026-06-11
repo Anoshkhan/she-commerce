@@ -5,21 +5,42 @@ import { useState } from 'react'
 import { Menu, X, Search, ShoppingCart, Heart, LogOut, LogIn, User } from 'lucide-react'
 import { useAuth } from '@/lib/auth-context'
 import { useCart } from '@/lib/cart-context'
+import { useRouter } from 'next/navigation' // Imported to handle search redirection
 
 export function Header() {
+  const router = useRouter()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('') // Tracks user's input
+  
   const { auth, logout } = useAuth()
   const { cart } = useCart()
 
-  const closeMenu = () => {
+  const closeAllMenus = () => {
     setIsMenuOpen(false)
+    setIsSearchOpen(false)
+  }
+
+  // Handles executing the search action
+  const handleSearchSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault()
+    
+    if (searchQuery.trim()) {
+      // Execute your search logic here (e.g., redirecting to products page)
+      router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}`)
+      
+      // Crucial part: Reset text and close the mobile search container
+      setSearchQuery('')
+      setIsSearchOpen(false)
+    }
   }
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-border/50 shadow-sm transition-smooth">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" onClick={closeMenu} className="flex items-center gap-3 group">
+          {/* Logo */}
+          <Link href="/" onClick={closeAllMenus} className="flex items-center gap-3 group">
             <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center shadow-md">
               <span className="text-white text-lg font-bold">S</span>
             </div>
@@ -28,21 +49,41 @@ export function Header() {
             </span>
           </Link>
 
-          <div className="hidden md:flex flex-1 mx-8 max-w-md">
+          {/* Desktop Search Bar (Submits on Enter or Button Click) */}
+          <form 
+            onSubmit={handleSearchSubmit} 
+            className="hidden md:flex flex-1 mx-8 max-w-md"
+          >
             <div className="relative w-full group">
               <input
                 type="text"
                 placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full px-4 py-2.5 rounded-xl bg-muted text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary border border-transparent"
               />
-              <button className="absolute right-3 top-3 text-muted-foreground hover:text-primary">
+              <button type="submit" className="absolute right-3 top-3 text-muted-foreground hover:text-primary">
                 <Search className="w-5 h-5" />
               </button>
             </div>
-          </div>
+          </form>
 
-          <div className="flex items-center gap-2 sm:gap-4">
-            <Link href="/cart" onClick={closeMenu} className="relative p-2 text-foreground hover:text-primary">
+          {/* Navigation Action Buttons */}
+          <div className="flex items-center gap-1 sm:gap-4">
+            {/* Mobile Search Toggle Button */}
+            <button
+              type="button"
+              onClick={() => {
+                setIsSearchOpen((prev) => !prev)
+                setIsMenuOpen(false)
+              }}
+              className="md:hidden p-2 text-foreground hover:text-primary transition-colors"
+              aria-label="Toggle Search"
+            >
+              <Search className="w-6 h-6" />
+            </button>
+
+            <Link href="/cart" onClick={closeAllMenus} className="relative p-2 text-foreground hover:text-primary">
               <ShoppingCart className="w-6 h-6" />
               {cart.totalItems > 0 && (
                 <span className="absolute top-1 right-1 bg-accent text-accent-foreground text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
@@ -51,7 +92,7 @@ export function Header() {
               )}
             </Link>
 
-            <Link href="/wishlist" onClick={closeMenu} className="p-2 text-foreground hover:text-primary">
+            <Link href="/wishlist" onClick={closeAllMenus} className="p-2 text-foreground hover:text-primary">
               <Heart className="w-6 h-6" />
             </Link>
 
@@ -67,7 +108,7 @@ export function Header() {
             ) : (
               <Link
                 href="/login"
-                onClick={closeMenu}
+                onClick={closeAllMenus}
                 className="hidden sm:flex items-center gap-2 px-4 py-2 text-primary font-medium hover:bg-primary hover:text-primary-foreground rounded-lg"
               >
                 <LogIn className="w-5 h-5" />
@@ -75,9 +116,13 @@ export function Header() {
               </Link>
             )}
 
+            {/* Hamburger Mobile Menu Toggle Button */}
             <button
               type="button"
-              onClick={() => setIsMenuOpen((prev) => !prev)}
+              onClick={() => {
+                setIsMenuOpen((prev) => !prev)
+                setIsSearchOpen(false)
+              }}
               className="md:hidden p-2 text-foreground"
             >
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -85,43 +130,61 @@ export function Header() {
           </div>
         </div>
 
-        {isMenuOpen && (
-          <div className="md:hidden pb-4 border-t border-border">
-            <div className="mt-4 mb-4 px-2">
+        {/* Dedicated Mobile Expandable Search Bar */}
+        {isSearchOpen && (
+          <form 
+            onSubmit={handleSearchSubmit}
+            className="md:hidden pb-4 pt-2 border-t border-border animate-in fade-in slide-in-from-top-2 duration-200"
+          >
+            <div className="relative w-full px-2">
               <input
                 type="text"
                 placeholder="Search products..."
-                className="w-full px-4 py-2 rounded-lg bg-muted text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                autoFocus
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-4 py-2.5 pr-10 rounded-xl bg-muted text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary border border-transparent"
               />
+              <button 
+                type="submit" 
+                className="absolute right-5 top-3 text-muted-foreground hover:text-primary"
+              >
+                <Search className="w-5 h-5" />
+              </button>
             </div>
+          </form>
+        )}
 
-            <nav className="space-y-2">
-              <Link href="/" onClick={closeMenu} className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">
+        {/* Mobile Navigation Dropdown Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden pb-4 border-t border-border animate-in fade-in duration-200">
+            <nav className="space-y-2 mt-4">
+              <Link href="/" onClick={closeAllMenus} className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">
                 Home
               </Link>
 
-              <Link href="/categories" onClick={closeMenu} className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">
+              <Link href="/categories" onClick={closeAllMenus} className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">
                 Categories
               </Link>
 
-              <Link href="/products" onClick={closeMenu} className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">
+              <Link href="/products" onClick={closeAllMenus} className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">
                 Products
               </Link>
 
               {auth.isAuthenticated ? (
                 <>
-                  <Link href="/profile" onClick={closeMenu} className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">
+                  <Link href="/profile" onClick={closeAllMenus} className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">
                     Profile
                   </Link>
 
-                  <Link href="/orders" onClick={closeMenu} className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">
+                  <Link href="/orders" onClick={closeAllMenus} className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">
                     My Orders
                   </Link>
 
                   <button
                     onClick={() => {
                       logout()
-                      closeMenu()
+                      closeAllMenus()
                     }}
                     className="block w-full text-left px-4 py-2 text-foreground hover:bg-muted rounded-lg"
                   >
@@ -129,7 +192,7 @@ export function Header() {
                   </button>
                 </>
               ) : (
-                <Link href="/login" onClick={closeMenu} className="block px-4 py-2 text-primary font-medium hover:bg-primary hover:text-primary-foreground rounded-lg">
+                <Link href="/login" onClick={closeAllMenus} className="block px-4 py-2 text-primary font-medium hover:bg-primary hover:text-primary-foreground rounded-lg">
                   Sign In
                 </Link>
               )}
